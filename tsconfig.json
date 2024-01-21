@@ -9,6 +9,7 @@
       "@app/components": ["src/components"],
       "@app/assets": ["src/assets"],
       "@app/lib": ["src/lib"],
+      "@app/api": ["src/api"],
     }
   },
   "extends": "@tsconfig/react-native/tsconfig.json"

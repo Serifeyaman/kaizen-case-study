@@ -24,6 +24,7 @@ module.exports = {
           '@app/components': './src/components',
           '@app/assets': './src/assets',
           '@app/lib': './src/lib',
+          '@app/api': './src/api',
         },
       },
     ],

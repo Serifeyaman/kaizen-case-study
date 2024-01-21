@@ -1,7 +1,10 @@
 import type {RouteProp} from '@react-navigation/native';
 
 export type RootStackParamList = {
-  ['PromotionDetail']: undefined;
+  ['PromotionDetail']: {
+    SeoName: string;
+    Id: number;
+  };
 };
 
 export type RootRouteProps<RouteName extends keyof RootStackParamList> =
