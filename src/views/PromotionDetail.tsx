@@ -36,8 +36,8 @@ const PromotionDetail = () => {
     });
 
     return () => {
-      focusListener.remove();
-      blurListener.remove();
+      (focusListener as any).remove();
+      (blurListener as any).remove();
     };
   }, [navigation]);
 

@@ -146,16 +146,15 @@ const Routes: React.FC = () => {
         name="DahaWallet"
         component={DahaWalletScreen}
         options={{
-          tabBarIcon: (props: any) =>
-            (
-              <Icons.Star
-                width="21"
-                height="21"
-                color={props.focused ? '#1D1E1C' : 'gray'}
-                {...props}
-              />
-            ) as any,
-          header: Header,
+          tabBarIcon: (props: {focused: boolean}) => (
+            <Icons.Star
+              width="21"
+              height="21"
+              color={props.focused ? '#1D1E1C' : 'gray'}
+              {...props}
+            />
+          ),
+          header: Header as any,
           tabBarLabel: 'DAHA CÜZDAN',
         }}
       />

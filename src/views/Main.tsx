@@ -7,10 +7,9 @@ import cn from 'classnames';
 import {Icons, PromotionCard} from '@app/components';
 import {useDispatch, useSelector} from 'react-redux';
 import api from '@app/api';
-import {promotionHelper} from '@app/lib';
 
 const Main = () => {
-  const {tags, promotionList} = useSelector(state => state.promotion);
+  const {tags} = useSelector((state: {promotion: any}) => state.promotion);
   const [activeBrandId, setActiveBrandId] = useState(tags?.[0]?.Id);
   const dispatch = useDispatch();
 

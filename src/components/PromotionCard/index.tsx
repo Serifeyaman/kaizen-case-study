@@ -47,7 +47,9 @@ const PaginationDot: React.FC<{
 
 const PromotionCard: React.FC<PromotionCardPropTypes> = ({activeBrandId}) => {
   const navigation = useNavigation();
-  const {promotionList} = useSelector(state => state.promotion);
+  const {promotionList} = useSelector(
+    (state: {promotion: any}) => state.promotion,
+  );
   const dispatch = useDispatch();
   const [visibleItemIndex, setVisibleItemIndex] = useState(0);
   const [visibleItemData, setVisibleItemData] = useState(promotionList?.[0]);
@@ -168,7 +170,7 @@ const PromotionCard: React.FC<PromotionCardPropTypes> = ({activeBrandId}) => {
       <View className="flex-row justify-center mt-5">
         {filteredPromotionList.length > 1 && (
           <View style={styles.paginationContainer}>
-            {filteredPromotionList.map((_, i) => (
+            {filteredPromotionList.map((_: any, i: number) => (
               <PaginationDot
                 key={i}
                 currentIndex={visibleItemIndex}
