@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Platform,
   Pressable,
   // ScrollView,
   StatusBar,
@@ -15,6 +16,7 @@ import {
 
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
+import cn from 'classnames';
 // import RenderHTML from 'react-native-render-html';
 
 import {date, promotionHelper} from '@app/lib';
@@ -127,7 +129,6 @@ const PromotionCard: React.FC<PromotionCardPropTypes> = ({activeBrandId}) => {
               <View className="flex-row justify-center mt-4">
                 <Text className="text-[#1D1E1C] text-[14px] font-bold w-[240px] py-2 text-center">
                   {item.Title}
-
                   {/* 
                     TODO:
                     Burada endpointten gelen bir metin var fakat renginden dolayı görünmüyor. 
@@ -159,7 +160,12 @@ const PromotionCard: React.FC<PromotionCardPropTypes> = ({activeBrandId}) => {
                 zIndex: 0,
                 backgroundColor: item.PromotionCardColor,
               }}
-              className="absolute -bottom-[20px] h-10 rounded-bl-[90px] rounded-br-[22px] rounded-tl-[100px] rounded-tr-[2px] rotate-[3deg]"
+              className={cn(
+                'absolute -bottom-[20px] h-10 rounded-bl-[90px] rounded-br-[22px] rounded-tl-[100px] rounded-tr-[2px] rotate-[3deg]',
+                {
+                  'rounded-br-[90px]': Platform.OS === 'android',
+                },
+              )}
             />
             {index === filteredPromotionList.length - 1 && (
               <View className="pr-14" />
@@ -194,6 +200,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     display: 'flex',
+    paddingBottom: Platform.OS === 'android' ? 60 : 0,
   },
   paginationContainer: {
     flexDirection: 'row',
