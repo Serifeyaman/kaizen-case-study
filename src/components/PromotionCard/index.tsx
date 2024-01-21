@@ -125,9 +125,11 @@ const PromotionCard: React.FC<PromotionCardPropTypes> = ({activeBrandId}) => {
               <View className="flex-row justify-center mt-4">
                 <Text className="text-[#1D1E1C] text-[14px] font-bold w-[240px] py-2 text-center">
                   {item.Title}
+
                   {/* 
+                    TODO:
                     Burada endpointten gelen bir metin var fakat renginden dolayı görünmüyor. 
-                    Eğer endpointten gelen bu metinin style doğru gelseydi aşağıdaki kod bloğu kullanılabilirdi.
+                    Eğer endpointten gelen bu metinin style değeri doğru gelseydi aşağıdaki kod bloğu kullanılabilirdi.
                   */}
                   {/* <ScrollView style={{flex: 1}}>
                     <RenderHTML

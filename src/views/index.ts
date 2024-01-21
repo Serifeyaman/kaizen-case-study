@@ -1,5 +1,5 @@
-import Test from './Test';
+import DahaWallet from './DahaWallet';
 import Main from './Main';
 import PromotionDetail from './PromotionDetail';
 
-export {Test, Main, PromotionDetail};
+export {DahaWallet, Main, PromotionDetail};

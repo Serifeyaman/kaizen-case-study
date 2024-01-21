@@ -1,11 +1,7 @@
 import React, {useEffect} from 'react';
 import {Image, Text, View} from 'react-native';
 
-import {
-  useNavigation,
-  useRoute,
-  // useRoute
-} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -17,7 +13,9 @@ import RenderHTML from 'react-native-render-html';
 const PromotionDetail = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const {promotionDetail} = useSelector(state => state.promotion);
+  const {promotionDetail} = useSelector(
+    (state: {promotion: any}) => state.promotion,
+  );
   const dispatch = useDispatch();
   const route = useRoute();
   const {SeoName, Id} = route.params as {Id: number; SeoName: string};
@@ -83,7 +81,20 @@ const PromotionDetail = () => {
           </View>
         </View>
         <View className="p-4">
-          <Text className="text-[26px] font-bold">{promotionDetail.Title}</Text>
+          <Text className="text-[26px] font-bold">
+            {/* 
+                TODO:
+                Burada endpointten gelen bir metin var fakat renginden dolayı görünmüyor. 
+                Eğer endpointten gelen bu metinin style değeri doğru gelseydi aşağıdaki kod bloğu kullanılabilirdi.
+            */}
+            {/* <ScrollView style={{flex: 1}}>
+              <RenderHTML
+                contentWidth={240}
+                source={{html: promotionDetail.Title}}
+               />
+              </ScrollView> */}
+            {promotionDetail.Title}
+          </Text>
           <Text className="text-[14px] font-normal mt-4">
             <ScrollView style={{flex: 1}}>
               <RenderHTML

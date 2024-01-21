@@ -14,7 +14,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {
   Main as MainScreen,
   PromotionDetail as PromotionDetailScreen,
-  Test as TestScreen,
+  DahaWallet as DahaWalletScreen,
 } from '@app/views';
 import {Icons} from '@app/components';
 import {navigation as navigationLib} from '@app/lib';
@@ -133,7 +133,7 @@ const Routes: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="Test"
+        name="CustomMainTab"
         component={MainStack}
         options={{
           headerShown: false,
@@ -143,8 +143,8 @@ const Routes: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="Test1"
-        component={TestScreen}
+        name="DahaWallet"
+        component={DahaWalletScreen}
         options={{
           tabBarIcon: (props: any) =>
             (

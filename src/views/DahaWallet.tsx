@@ -1,13 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const Test = () => {
+const DahaWallet = () => {
   return (
     <View className="flex-1 bg-white">
-      <Text>Testttttt</Text>
-      <Text className="text-semibold">Test</Text>
+      <Text className="text-semibold">Daha Cüzdan</Text>
     </View>
   );
 };
 
-export default Test;
+export default DahaWallet;
