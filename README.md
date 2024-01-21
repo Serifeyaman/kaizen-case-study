@@ -1,5 +1,5 @@
 
-# Kaizen Case Study
+# React Native Case Study
 
 IOS, Android platformlarda çalışabilecek,  iki sayfadan oluşan promosyon ve kapmanya uygulaması
 
