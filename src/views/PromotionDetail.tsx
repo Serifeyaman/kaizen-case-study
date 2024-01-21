@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ScrollView} from 'react-native-gesture-handler';
 
-import {date} from '@app/lib';
+import {date, navigation as navigationLib} from '@app/lib';
 
 const PROMOTION_DETAIL_DATA = {
   BrandIconColor: '#FFFFFF',
@@ -169,11 +169,17 @@ const PromotionDetail = () => {
 
   useEffect(() => {
     const focusListener = navigation.addListener('focus', () => {
-      navigation.getParent()?.setOptions({tabBarStyle: {display: 'none'}});
+      navigation.getParent()?.setOptions({
+        tabBarStyle: {
+          display: 'none',
+        },
+      });
     });
 
     const blurListener = navigation.addListener('blur', () => {
-      navigation.getParent()?.setOptions({tabBarStyle: {display: 'flex'}});
+      navigation
+        .getParent()
+        ?.setOptions({tabBarStyle: navigationLib.handleTabbarAsVisible()});
     });
 
     return () => {
@@ -202,7 +208,11 @@ const PromotionDetail = () => {
           </View>
           <View className="px-4 py-3 absolute bottom-3 right-3 rounded-[27px] bg-[#1D1E1C] flex justify-center items-center">
             <Text className="text-white text-[13px] font-medium">
-              son {date.differenceDate(PROMOTION_DETAIL_DATA.RemainingText)} gün
+              son{' '}
+              <Text className="text-[15px]">
+                {date.differenceDate(PROMOTION_DETAIL_DATA.RemainingText)}
+              </Text>{' '}
+              gün
             </Text>
           </View>
         </View>

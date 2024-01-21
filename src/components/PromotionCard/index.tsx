@@ -1,17 +1,23 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
+  Dimensions,
   FlatList,
   Image,
+  Pressable,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ViewToken,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 
 import {date} from '@app/lib';
+
+const {width} = Dimensions.get('window');
+const ITEM_WIDTH = width;
 
 const PROMOTON_DATA = [
   {
@@ -174,12 +180,16 @@ const PROMOTON_DATA = [
 
 const PaginationDot: React.FC<{
   currentIndex: number;
+  currentItem: any;
   index: number;
-}> = ({currentIndex, index}) => (
+}> = ({currentIndex, currentItem, index}) => (
   <TouchableOpacity
     style={[
       styles.paginationDot,
-      currentIndex === index && styles.paginationDotActive,
+      currentIndex === index && {
+        ...styles.paginationDotActive,
+        backgroundColor: currentItem.PromotionCardColor,
+      },
     ]}
     key={index}
     activeOpacity={0.7}
@@ -189,46 +199,43 @@ const PaginationDot: React.FC<{
 const PromotionCard = () => {
   const navigation = useNavigation();
   const [visibleItemIndex, setVisibleItemIndex] = useState(0);
+  const [visibleItemData, setVisibleItemData] = useState(PROMOTON_DATA[0]);
 
-  function handleImageChange(props) {
-    console.log('props', props?.changed?.[0].index);
-    // if (props?.viewableItems?.[0].isViewable) {
-    //   setVisibleItemIndex(props?.viewableItems?.[0].index);
-    // }
-  }
-  // function handleImageChange(progress: number, staticWidth: number) {
-  //   const index = Math.abs(Math.round(progress / staticWidth));
-  // setVisibleItemIndex(index);
-  // }
-  // const props = {
-  //   changed: [{index: 0, isViewable: true, item: [Object], key: '0'}],
-  //   viewabilityConfig: {
-  //     itemVisiblePercentThreshold: 172.5,
-  //     minimumViewTime: 1000,
-  //   },
-  //   viewableItems: [{index: 0, isViewable: true, item: [Object], key: '0'}],
-  // };
+  const onViewableItemsChanged = useCallback(
+    ({viewableItems}: {viewableItems: ViewToken[]; changed: ViewToken[]}) => {
+      if (viewableItems.length > 0 && viewableItems[0].index) {
+        setVisibleItemIndex(viewableItems[0].index);
+        setVisibleItemData(viewableItems[0].item);
+      }
+    },
+    [],
+  );
+
   return (
     <>
       <FlatList
         data={PROMOTON_DATA}
         horizontal
-        className="mt-4 px-4"
+        className="mt-4 px-7 pb-10"
         contentContainerStyle={styles.contentContainer}
         showsHorizontalScrollIndicator={false}
-        ItemSeparatorComponent={() => <View className="w-2" />}
-        // onViewableItemsChanged={handleImageChange}
-        viewabilityConfig={{
-          minimumViewTime: 1000,
-          itemVisiblePercentThreshold: 50,
-        }}
-        renderItem={({item}) => (
+        pagingEnabled
+        snapToInterval={ITEM_WIDTH - 70 + 10}
+        decelerationRate="fast"
+        ItemSeparatorComponent={() => <View className="w-[10px]" />}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={{itemVisiblePercentThreshold: 50}}
+        scrollToOverflowEnabled={false}
+        renderItem={({item, index}) => (
           <>
-            <View className="p-1 border-[#ECEEEF] border-[2px] rounded-[16px] relative">
+            <Pressable
+              onPress={() => navigation.navigate('PromotionDetail')}
+              className="p-1 border-[#ECEEEF] border-[2px] rounded-[16px] relative bg-white"
+              style={{width: ITEM_WIDTH - 70, zIndex: 1}}>
               <View className="relative">
                 <Image
                   source={{uri: item.ImageUrl}}
-                  className="h-[290px] w-[310px] rounded-[16px] rounded-bl-[100px] relative"
+                  className="h-[290px] w-full bg-cover rounded-[16px] rounded-bl-[100px] relative"
                 />
                 <View className="w-[55px] h-[55px] absolute bottom-0 left-0 rounded-full bg-white p-1">
                   <Image
@@ -238,7 +245,11 @@ const PromotionCard = () => {
                 </View>
                 <View className="px-4 py-3 absolute bottom-2 right-2 rounded-[27px] bg-[#1D1E1C] flex justify-center items-center">
                   <Text className="text-white text-[13px] font-medium">
-                    son {date.differenceDate(item.RemainingText)} gün
+                    son{' '}
+                    <Text className="text-[15px]">
+                      {date.differenceDate(item.RemainingText)}
+                    </Text>{' '}
+                    gün
                   </Text>
                 </View>
               </View>
@@ -249,7 +260,6 @@ const PromotionCard = () => {
               </View>
               <View className="flex-row justify-center">
                 <Text
-                  onPress={() => navigation.navigate('PromotionDetail')}
                   style={{color: item.PromotionCardColor}}
                   className="text-[14px] font-bold w-[180px] text-center my-4">
                   Daha Daha
@@ -259,7 +269,16 @@ const PromotionCard = () => {
                 className="h-5 rounded-b-xl rounded-bl-3xl -z-10 rotate-3 absolute"
                 style={{backgroundColor: item.PromotionCardColor}}
               />
-            </View>
+            </Pressable>
+            <View
+              style={{
+                width: ITEM_WIDTH - 72,
+                zIndex: 0,
+                backgroundColor: item.PromotionCardColor,
+              }}
+              className="absolute -bottom-[20px] h-10 rounded-bl-[90px] rounded-br-[22px] rounded-tl-[100px] rounded-tr-[2px] rotate-[3deg]"
+            />
+            {index === PROMOTON_DATA.length - 1 && <View className="pr-14" />}
           </>
         )}
       />
@@ -270,6 +289,7 @@ const PromotionCard = () => {
               <PaginationDot
                 key={i}
                 currentIndex={visibleItemIndex}
+                currentItem={visibleItemData}
                 index={i}
               />
             ))}

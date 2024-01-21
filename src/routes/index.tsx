@@ -17,6 +17,8 @@ import {
   Test as TestScreen,
 } from '@app/views';
 import {Icons} from '@app/components';
+import {navigation as navigationLib} from '@app/lib';
+
 import DahaDaha from '@app/assets/images/Daha_Daha.png';
 
 const Stack = createNativeStackNavigator();
@@ -110,20 +112,7 @@ const Routes: React.FC = () => {
       screenOptions={() => ({
         tabBarActiveTintColor: '#1D1E1C',
         tabBarInactiveTintColor: 'gray',
-        tabBarStyle: {
-          paddingTop: 4,
-          paddingBottom: 20,
-          height: 75,
-          borderTopWidth: 0,
-          shadowColor: 'gray',
-          shadowOffset: {
-            width: 0,
-            height: 0,
-          },
-          shadowOpacity: 0.3,
-          borderTopRightRadius: 25,
-          borderTopLeftRadius: 25,
-        },
+        tabBarStyle: navigationLib.handleTabbarAsVisible(),
         tabBarLabelStyle: {fontSize: 11, fontWeight: '600'},
       })}>
       <Tab.Screen
