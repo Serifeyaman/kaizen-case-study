@@ -14,6 +14,7 @@ Bu projeyi çalıştırabilmeniz için bağımlılıklarınız aşağıdaki gibi
 `node version: 18`
 
 `openjdk 11.0.19`
+
 ## Run Locally
 
 Projeyi çalştırmak için sırasıyla aşağıdaki komutları kullanabilirsiniz.
