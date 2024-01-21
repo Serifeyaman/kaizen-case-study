@@ -23,6 +23,7 @@ module.exports = {
           '@app/store': './src/store',
           '@app/components': './src/components',
           '@app/assets': './src/assets',
+          '@app/lib': './src/lib',
         },
       },
     ],

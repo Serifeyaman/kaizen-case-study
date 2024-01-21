@@ -48,11 +48,7 @@ const Header: React.FC<NativeStackHeaderProps> = ({back, navigation}) => {
 
   if (canGoBack && isFocused) {
     return (
-      <View
-        className="bg-white px-4 relative bg-transparent"
-        style={{
-          paddingTop: insets.top,
-        }}>
+      <View className="bg-white px-4 relative bg-transparent">
         <View className="flex flex-row absolute top-10 left-5">
           <Pressable
             onPress={async () => {
@@ -68,7 +64,7 @@ const Header: React.FC<NativeStackHeaderProps> = ({back, navigation}) => {
 
   return (
     <View
-      className="bg-white px-4 pb-2"
+      className="bg-white px-4"
       style={{
         paddingTop: insets.top,
       }}>

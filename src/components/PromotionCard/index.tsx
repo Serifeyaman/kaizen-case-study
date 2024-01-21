@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   Image,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
-import RenderHTML from 'react-native-render-html';
+
+import {date} from '@app/lib';
 
 const PROMOTON_DATA = [
   {
@@ -171,57 +172,111 @@ const PROMOTON_DATA = [
   },
 ];
 
+const PaginationDot: React.FC<{
+  currentIndex: number;
+  index: number;
+}> = ({currentIndex, index}) => (
+  <TouchableOpacity
+    style={[
+      styles.paginationDot,
+      currentIndex === index && styles.paginationDotActive,
+    ]}
+    key={index}
+    activeOpacity={0.7}
+  />
+);
+
 const PromotionCard = () => {
   const navigation = useNavigation();
+  const [visibleItemIndex, setVisibleItemIndex] = useState(0);
 
+  function handleImageChange(props) {
+    console.log('props', props?.changed?.[0].index);
+    // if (props?.viewableItems?.[0].isViewable) {
+    //   setVisibleItemIndex(props?.viewableItems?.[0].index);
+    // }
+  }
+  // function handleImageChange(progress: number, staticWidth: number) {
+  //   const index = Math.abs(Math.round(progress / staticWidth));
+  // setVisibleItemIndex(index);
+  // }
+  // const props = {
+  //   changed: [{index: 0, isViewable: true, item: [Object], key: '0'}],
+  //   viewabilityConfig: {
+  //     itemVisiblePercentThreshold: 172.5,
+  //     minimumViewTime: 1000,
+  //   },
+  //   viewableItems: [{index: 0, isViewable: true, item: [Object], key: '0'}],
+  // };
   return (
-    <FlatList
-      data={PROMOTON_DATA}
-      horizontal
-      className="mt-4"
-      contentContainerStyle={styles.contentContainer}
-      ItemSeparatorComponent={() => <View className="w-2" />}
-      renderItem={({item}) => (
-        <>
-          <View className="p-1 border-[#ECEEEF] border-[2px] rounded-xl relative">
-            <Image
-              source={{uri: item.ImageUrl}}
-              className="h-[290px] w-[310px] cover rounded-[16px] rounded-bl-[100px] relative"
-            />
-            <View className="w-16 h-16 absolute bottom-[135px] left-0 rounded-full border-white border-[4px]">
-              <Image
-                source={{uri: item.BrandIconUrl}}
-                className="w-full h-full cover relative rounded-full"
+    <>
+      <FlatList
+        data={PROMOTON_DATA}
+        horizontal
+        className="mt-4 px-4"
+        contentContainerStyle={styles.contentContainer}
+        showsHorizontalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View className="w-2" />}
+        // onViewableItemsChanged={handleImageChange}
+        viewabilityConfig={{
+          minimumViewTime: 1000,
+          itemVisiblePercentThreshold: 50,
+        }}
+        renderItem={({item}) => (
+          <>
+            <View className="p-1 border-[#ECEEEF] border-[2px] rounded-[16px] relative">
+              <View className="relative">
+                <Image
+                  source={{uri: item.ImageUrl}}
+                  className="h-[290px] w-[310px] rounded-[16px] rounded-bl-[100px] relative"
+                />
+                <View className="w-[55px] h-[55px] absolute bottom-0 left-0 rounded-full bg-white p-1">
+                  <Image
+                    source={{uri: item.BrandIconUrl}}
+                    className="w-full h-full cover relative"
+                  />
+                </View>
+                <View className="px-4 py-3 absolute bottom-2 right-2 rounded-[27px] bg-[#1D1E1C] flex justify-center items-center">
+                  <Text className="text-white text-[13px] font-medium">
+                    son {date.differenceDate(item.RemainingText)} gün
+                  </Text>
+                </View>
+              </View>
+              <View className="flex-row justify-center mt-4">
+                <Text className="text-[#1D1E1C] text-[14px] font-bold w-[240px] py-2 text-center">
+                  {item.Title}
+                </Text>
+              </View>
+              <View className="flex-row justify-center">
+                <Text
+                  onPress={() => navigation.navigate('PromotionDetail')}
+                  style={{color: item.PromotionCardColor}}
+                  className="text-[14px] font-bold w-[180px] text-center my-4">
+                  Daha Daha
+                </Text>
+              </View>
+              <View
+                className="h-5 rounded-b-xl rounded-bl-3xl -z-10 rotate-3 absolute"
+                style={{backgroundColor: item.PromotionCardColor}}
               />
             </View>
-            <View className="px-4 py-3 absolute bottom-[160px] right-3 rounded-[27px] bg-[#1D1E1C] flex justify-center items-center">
-              <Text className="text-white text-[13px] font-medium">
-                son 12 gün
-              </Text>
-            </View>
-            <View className="flex-row justify-center mt-4">
-              <Text className="text-[#1D1E1C] text-[14px] font-bold w-[240px] py-3 text-center">
-                <ScrollView style={{flex: 1}}>
-                  <RenderHTML contentWidth={240} source={{html: item.Title}} />
-                </ScrollView>
-              </Text>
-            </View>
-            <View className="flex-row justify-center">
-              <Text
-                onPress={() => navigation.navigate('PromotionDetail')}
-                style={{color: item.PromotionCardColor}}
-                className="text-[14px] font-bold w-[180px] text-center mb-2">
-                Daha Daha
-              </Text>
-            </View>
-            <View
-              className="h-5 rounded-b-xl rounded-bl-3xl -z-10 rotate-3"
-              style={{backgroundColor: item.PromotionCardColor}}
-            />
+          </>
+        )}
+      />
+      <View className="flex-row justify-center mt-5">
+        {PROMOTON_DATA.length > 1 && (
+          <View style={styles.paginationContainer}>
+            {PROMOTON_DATA.map((_, i) => (
+              <PaginationDot
+                key={i}
+                currentIndex={visibleItemIndex}
+                index={i}
+              />
+            ))}
           </View>
-        </>
-      )}
-    />
+        )}
+      </View>
+    </>
   );
 };
 
@@ -234,6 +289,22 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     display: 'flex',
+  },
+  paginationContainer: {
+    flexDirection: 'row',
+    padding: 3,
+    borderRadius: 8,
+  },
+  paginationDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    marginHorizontal: 3,
+    backgroundColor: '#D8D8D8',
+  },
+  paginationDotActive: {
+    backgroundColor: 'black',
+    width: 15,
   },
 });
 
