@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@app/routes": ["src/routes"],
+      "@app/views": ["src/views"],
+      "@app/store": ["src/store"],
+      "@app/components": ["src/components"],
+      "@app/assets": ["src/assets"],
+    }
+  },
+  "extends": "@tsconfig/react-native/tsconfig.json"
+}
